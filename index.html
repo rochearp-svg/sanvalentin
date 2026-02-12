@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>San Valentín</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(#ff9a9e, #fad0c4);
+  text-align: center;
+  padding-top: 60px;
+  color: white;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+/* TEXTO EXAGERADO */
+#texto-no {
+  font-size: 1.8em;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+/* IMAGEN CENTRAL */
+#imagen-menu {
+  max-width: 300px;
+  width: 80%;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+button {
+  font-size: 1.2em;
+  padding: 10px 25px;
+  margin: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.si {
+  background-color: #ff4d6d;
+  color: white;
+}
+
+.no {
+  background-color: #555;
+  color: white;
+}
+
+/* CORAZONES */
+.corazon {
+  position: absolute;
+  bottom: -50px;
+  animation: flotar 4s linear infinite;
+}
+
+@keyframes flotar {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* CARTEL FINAL */
+#cartel {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 9999;
+  animation: zoomIn 0.4s ease-out;
+}
+
+@keyframes zoomIn {
+  from { transform: translate(-50%, -50%) scale(0.8); }
+  to { transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>💘 ¿Querés ser mi San Valentín? 💘</h1>
+
+<img id="imagen-menu" src="menu.jpg">
+
+<div id="texto-no"></div>
+
+<div>
+  <button class="si" id="btnSi" onclick="aceptar()">Sí 🥰</button>
+  <button class="no" onclick="rechazar()">No 😢</button>
+</div>
+
+<div id="corazones"></div>
+
+<img id="cartel" src="cartel.png">
+
+<script>
+const gatos = [
+  "gatos/gato_triste.jpg",
+  "gatos/gato_triste2.jpg",
+  "gatos/gato_triste3.jpg"
+];
+
+let indice = 0;
+let nivelTexto = 1;
+let escalaSi = 1;
+
+function rechazar() {
+  // cambiar imagen por gato
+  document.getElementById("imagen-menu").src =
+    gatos[indice % gatos.length];
+  indice++;
+
+  // texto exagerado
+  const texto = document.getElementById("texto-no");
+  texto.innerText = "¿ESTÁS SEGURA" + "!".repeat(nivelTexto) + "?";
+  texto.style.fontSize = (1.5 + nivelTexto * 0.3) + "em";
+  texto.style.color = nivelTexto > 3 ? "#ff0000" : "#fff";
+  nivelTexto++;
+
+  // agrandar botón SÍ
+  escalaSi += 0.25;
+  document.getElementById("btnSi").style.transform =
+    "scale(" + escalaSi + ")";
+}
+
+function aceptar() {
+  document.getElementById("imagen-menu").style.display = "none";
+  document.getElementById("texto-no").style.display = "none";
+  document.getElementById("cartel").style.display = "block";
+
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement("div");
+    c.className = "corazon";
+    c.innerText = "💖";
+    c.style.left = Math.random() * 100 + "%";
+    c.style.fontSize = (20 + Math.random() * 30) + "px";
+    c.style.animationDuration = (2 + Math.random() * 3) + "s";
+    document.getElementById("corazones").appendChild(c);
+  }
+}
+</script>
+
+</body>
+</html>
